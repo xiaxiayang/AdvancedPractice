@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--自定义标题栏属性-->
+    <declare-styleable name="CustomActionBar">
+        <!--标题文字-->
+        <attr name="action_title" format="string" />
+        <!--最右边文字-->
+        <attr name="action_txt_right" format="string" />
+        <!--返回键资源id-->
+        <attr name="action_iv_back" format="reference" />
+        <!--最右边图片资源id-->
+        <attr name="action_iv_right" format="reference" />
+        <!--是否显示返回键-->
+        <attr name="action_iv_back_show" format="boolean" />
+        <!--是否显示标题右边图片-->
+        <attr name="action_show_iv_title_right" format="boolean" />
+        <!--是否显示最右边图片-->
+        <attr name="action_show_iv_right" format="boolean" />
+        <!--是否显示最右边文字-->
+        <attr name="action_show_txt_right" format="boolean" />
+    </declare-styleable>
+</resources>
