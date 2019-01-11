@@ -31,13 +31,13 @@ public class SwipeItemTouchHelper extends ItemTouchHelper {
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
-        Log.d(TAG, "onDrawOver: state"+ state);
+//        Log.d(TAG, "onDrawOver: state"+ state);
     }
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
-        Log.d(TAG, "onDraw: ");
+//        Log.d(TAG, "onDraw: ");
     }
 
     @Override
@@ -69,4 +69,6 @@ public class SwipeItemTouchHelper extends ItemTouchHelper {
         super.startSwipe(viewHolder);
         Log.d(TAG, "startSwipe: ");
     }
+
+
 }

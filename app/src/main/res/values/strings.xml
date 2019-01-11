@@ -6,5 +6,7 @@
     <string name="item_offsets_set">getItemOffsets 函数参数设置</string>
     <string name="tv_sure"> 确定</string>
     <string name="tv_cancel"> 取消</string>
+    <string name="tv_stick"> 置顶</string>
+    <string name="tv_delete"> 删除</string>
 
 </resources>

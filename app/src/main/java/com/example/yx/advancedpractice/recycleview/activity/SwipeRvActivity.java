@@ -1,5 +1,6 @@
 package com.example.yx.advancedpractice.recycleview.activity;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,14 +22,36 @@ public class SwipeRvActivity extends BaseRvActivity {
     private List<CommonDataBean> dataBeanList = new ArrayList<>();
     private SwipeRvAdapter adapter;
     private SwipeItemTouchHelper helper;
+    private SwipeItemTouchHelperCallback callback;
     private static final String TAG = "SwipeRvActivity";
 
     @Override
     protected void setAdapter() {
         adapter = new SwipeRvAdapter(dataBeanList,this);
-        helper = new SwipeItemTouchHelper(new SwipeItemTouchHelperCallback(adapter));
+        callback = new SwipeItemTouchHelperCallback(adapter,this);
+        helper = new SwipeItemTouchHelper(callback);
         helper.attachToRecyclerView(rvCommon);
         rvCommon.setAdapter(adapter);
+        rvCommon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        callback.closeSwipeView();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -36,6 +59,7 @@ public class SwipeRvActivity extends BaseRvActivity {
         super.initView();
 
     }
+
 
     @Override
     protected void bindEvent() {

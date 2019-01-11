@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yx.advancedpractice.R;
 import com.example.yx.advancedpractice.bean.CommonDataBean;
@@ -27,34 +28,37 @@ public class SwipeRvAdapter extends RecyclerView.Adapter<SwipeRvAdapter.ViewHold
     private List<CommonDataBean> items;
     private static final String TAG = "SwipeRvAdapter";
     /**
-     *  事件监听
+     * 事件监听
      */
     private onItemClickListener onItemClickListener;
+
     /**
      * 侧滑回调
+     *
      * @param i
      */
     @Override
     public void onSwiped(int i) {
-        items.remove(i);
-        notifyItemRemoved(i);
+//        items.remove(i);
+//        notifyItemRemoved(i);
     }
 
-    public interface onItemClickListener{
-        void  onItemClick(View view, int position);
+    public interface onItemClickListener {
+        void onItemClick(View view, int position);
     }
-    public void  setOnItemClickListener (onItemClickListener onItemClickListener){
+
+    public void setOnItemClickListener(onItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public SwipeRvAdapter(List<CommonDataBean> items,Context context) {
+    public SwipeRvAdapter(List<CommonDataBean> items, Context context) {
         this.items = items;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_swipe, parent, false);
         return new ViewHolder(v);
     }
 
@@ -65,9 +69,21 @@ public class SwipeRvAdapter extends RecyclerView.Adapter<SwipeRvAdapter.ViewHold
         holder.llLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (onItemClickListener !=null){
-                    onItemClickListener.onItemClick(view,position);
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(view, position);
                 }
+            }
+        });
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "tvDelete", Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.tvStick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "tvStick", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -83,11 +99,16 @@ public class SwipeRvAdapter extends RecyclerView.Adapter<SwipeRvAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_item)
         TextView tvItem;
+        @BindView(R.id.tv_stick)
+        TextView tvStick;
+        @BindView(R.id.tv_delete)
+        TextView tvDelete;
         @BindView(R.id.ll_layout)
         LinearLayout llLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
