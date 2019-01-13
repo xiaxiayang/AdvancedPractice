@@ -28,9 +28,6 @@ public class CommonRvAdapter extends RecyclerView.Adapter<CommonRvAdapter.ViewHo
     /**
      *  事件监听
      */
-    /**
-     *  事件监听
-     */
     private onItemClickListener onItemClickListener;
     private onItemLongClickListener onItemLongClickListener;
 
@@ -48,17 +45,33 @@ public class CommonRvAdapter extends RecyclerView.Adapter<CommonRvAdapter.ViewHo
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    /**
+     * 构造函数
+     * @param items
+     * @param context
+     */
     public CommonRvAdapter(List<CommonDataBean> items, Context context) {
         this.items = items;
         this.context = context;
     }
 
+    /**
+     * 实例化 ViewHolder
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false);
         return new ViewHolder(v);
     }
 
+    /**
+     * 更新 View 内容
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         CommonDataBean item = items.get(position);
@@ -83,6 +96,10 @@ public class CommonRvAdapter extends RecyclerView.Adapter<CommonRvAdapter.ViewHo
         });
     }
 
+    /**
+     * 获取 item 的总数
+     * @return
+     */
     @Override
     public int getItemCount() {
         if (items == null) {

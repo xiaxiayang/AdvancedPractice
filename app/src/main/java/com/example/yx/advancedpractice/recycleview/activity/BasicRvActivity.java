@@ -1,8 +1,9 @@
 package com.example.yx.advancedpractice.recycleview.activity;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
-import com.example.yx.advancedpractice.R;
 import com.example.yx.advancedpractice.base.BaseRvActivity;
 import com.example.yx.advancedpractice.bean.CommonDataBean;
 import com.example.yx.advancedpractice.recycleview.adapter.CommonRvAdapter;
@@ -27,7 +28,26 @@ public class BasicRvActivity extends BaseRvActivity {
 
     @Override
     protected RecyclerView.ItemDecoration setDivider() {
-        return super.setDivider();
+//        return super.setDivider();
+        return  null;
+    }
+
+    @Override
+    protected void bindEvent() {
+        super.bindEvent();
+        commonRvAdapter.setOnItemClickListener(new CommonRvAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(BasicRvActivity.this, "点击" + dataBeanList.get(position).getData() , Toast.LENGTH_SHORT).show();
+            }
+        });
+        commonRvAdapter.setOnItemLongClickListener(new CommonRvAdapter.onItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(BasicRvActivity.this, "长按" + dataBeanList.get(position).getData() , Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override
@@ -38,7 +58,7 @@ public class BasicRvActivity extends BaseRvActivity {
 
     @Override
     public String setTitle() {
-        return getResources().getString(R.string.rv_practice_basic);
+        return "基础功能-数据展示";
     }
 
     @Override
