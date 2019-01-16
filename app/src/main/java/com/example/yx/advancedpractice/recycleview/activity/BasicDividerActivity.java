@@ -48,7 +48,7 @@ public class BasicDividerActivity  extends BaseRvActivity {
                     @Override
                     public void onConfirmClick(int left, int top, int right, int bottom) {
                         //移除之前的 divider
-                        rvCommon.removeItemDecorationAt(0);
+//                        rvCommon.removeItemDecorationAt(0);
                         //重新设置 divider
                         BasicDivider divider = new BasicDivider(BasicDividerActivity.this,left,top,right,bottom);
                         rvCommon.addItemDecoration(divider);

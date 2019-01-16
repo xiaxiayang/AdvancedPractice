@@ -49,8 +49,12 @@ public class RecycleViewMainActivity extends BaseRvActivity {
                         break;
                     case 4:
                         startActivity(new Intent(RecycleViewMainActivity.this,HeaderAndFooterActivity.class));
+                        break;
                     case 5:
                         startActivity(new Intent(RecycleViewMainActivity.this,SwipeRvActivity.class));
+                        break;
+                    case 6:
+                        startActivity(new Intent(RecycleViewMainActivity.this,DragRvActivity.class));
                         break;
                     default:
                         break;

@@ -29,6 +29,7 @@
         <activity android:name=".recycleview.activity.RefreshActivity"/>
         <activity android:name=".recycleview.activity.SwipeRvActivity"/>
         <activity android:name=".recycleview.activity.TimeDividerActivity"/>
+        <activity android:name=".recycleview.activity.DragRvActivity"/>
     </application>
 
 </manifest>
