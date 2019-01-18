@@ -6,7 +6,10 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#ddd</color>
-    <color name="gray_light">#eee</color>
+    <color name="gray_deep">#999</color>
+
+    <color name="gray_light">#EBEBEB</color>
+    <color name="red">#FC0000</color>
 
 
 </resources>
