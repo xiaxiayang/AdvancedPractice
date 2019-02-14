@@ -3,8 +3,9 @@ package com.example.yx.advancedpractice.recycleview.activity;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.yx.advancedpractice.base.BaseRvActivity;
-import com.example.yx.advancedpractice.bean.CommonDataBean;
-import com.example.yx.advancedpractice.recycleview.adapter.CommonRvAdapter;
+import com.example.yx.advancedpractice.bean.LogisticsInfoBean;
+import com.example.yx.advancedpractice.bean.LogisticsStatus;
+import com.example.yx.advancedpractice.recycleview.adapter.TimeDividerAdapter;
 import com.example.yx.advancedpractice.recycleview.dividerItem.TimeAxisDivider;
 
 import java.util.ArrayList;
@@ -16,11 +17,11 @@ import java.util.List;
  * 分割线 练习 -- 时间轴样式
  */
 public class TimeDividerActivity extends BaseRvActivity {
-    private List<CommonDataBean> dataBeanList = new ArrayList<>();
-    private CommonRvAdapter adapter;
+    private List<LogisticsInfoBean> dataBeanList = new ArrayList<>();
+    private TimeDividerAdapter adapter;
     @Override
     protected void setAdapter() {
-        adapter = new CommonRvAdapter(dataBeanList,this);
+        adapter = new TimeDividerAdapter(dataBeanList,this);
         rvCommon.setAdapter(adapter);
     }
 
@@ -30,7 +31,7 @@ public class TimeDividerActivity extends BaseRvActivity {
      */
     @Override
     protected RecyclerView.ItemDecoration setDivider() {
-        return new TimeAxisDivider(this);
+        return new TimeAxisDivider(this,dataBeanList);
     }
 
     @Override
@@ -40,11 +41,16 @@ public class TimeDividerActivity extends BaseRvActivity {
 
     @Override
     protected void initData() {
+        dataBeanList.add(new LogisticsInfoBean("[收货地址，xxxxxxx]",LogisticsStatus.RECEIVING,"02-11","10:00"));
+        dataBeanList.add(new LogisticsInfoBean("小主，运输中x1",LogisticsStatus.TRANSPORTING,"02-10","12:00"));
+        dataBeanList.add(new LogisticsInfoBean("小主，\n运输中x2",LogisticsStatus.TRANSPORTING,"02-10","12:10"));
+        dataBeanList.add(new LogisticsInfoBean("小主，\n\n运输中x3",LogisticsStatus.TRANSPORTING,"02-10","12:20"));
+        dataBeanList.add(new LogisticsInfoBean("小主，\n运输中x4",LogisticsStatus.TRANSPORTING,"02-10","12:30"));
+        dataBeanList.add(new LogisticsInfoBean("小主，已发货",LogisticsStatus.DELIVERED,"02-10","10:00"));
+        dataBeanList.add(new LogisticsInfoBean("小主，备货中",LogisticsStatus.STOCK_UP,"02-09","12:00"));
+        dataBeanList.add(new LogisticsInfoBean("订单支付成功，系统正在处理",LogisticsStatus.ORDERED,"02-09","10:10"));
+        dataBeanList.add(new LogisticsInfoBean("订单创建成功，等待支付",LogisticsStatus.TIPS,"02-09","10:00"));
 
-        for (int i = 0; i < 50; i++) {
-            CommonDataBean bean = new CommonDataBean("数据" + ( i %2 ==0?i +"\n\n\n": i));
-            dataBeanList.add(bean);
-        }
         adapter.notifyDataSetChanged();
 
     }

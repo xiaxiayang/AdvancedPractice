@@ -1,6 +1,7 @@
 package com.example.yx.advancedpractice.recycleview.dividerItem;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -10,6 +11,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.yx.advancedpractice.R;
+import com.example.yx.advancedpractice.bean.LogisticsInfoBean;
+import com.example.yx.advancedpractice.bean.LogisticsStatus;
+import com.example.yx.advancedpractice.utils.ScreenUtil;
+
+import java.util.List;
 
 
 /**
@@ -23,28 +29,33 @@ public class TimeAxisDivider extends RecyclerView.ItemDecoration {
     /**
      * 设置 item  lef他方向的偏移量
      */
-    private int leftOffset = 80;
-    /**
-     *  时光轴分割点距离item 顶部的距离
-     */
-    private int toTop = 20;
+    private int leftOffset = 120;
     /**
      * 画的小圆点的半径
      */
-    private int circleRadius = 5;
+    private int circleRadius = 10;
+    /**
+     * 画的小图标的宽度
+     */
+    private int iconWidth = 50;
     /**
      * 分割线宽度
      */
     private int dividerLine =1 ;
     private Context context;
+    private int padding  ;
 
     private Paint paint;
-
-    public TimeAxisDivider(Context context) {
+    private List<LogisticsInfoBean> dataBeanList;
+    public TimeAxisDivider(Context context, List<LogisticsInfoBean> logisticsInfoBeans) {
         this.context = context;
         paint=  new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(context.getResources().getColor(R.color.black));
+        paint.setColor(context.getResources().getColor(R.color.gray_deep));
+        paint.setTextSize(16);
+        paint.setTextAlign(Paint.Align.RIGHT);
+        padding =  ScreenUtil.dip2px(context,12);
+        this.dataBeanList = logisticsInfoBeans;
     }
 
     @Override
@@ -52,31 +63,56 @@ public class TimeAxisDivider extends RecyclerView.ItemDecoration {
         Log.d(TAG,"----onDraw---");
         canvas.save();
         //先画分割线整体背景色
-        canvas.drawColor(context.getResources().getColor(R.color.gray));
+        canvas.drawColor(context.getResources().getColor(R.color.white));
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             //1.先画 1 px 的竖线
-             int startX = leftOffset-20;
-             int startY = child.getTop();
-             int stopX = startX;
-             int stopY = child.getBottom()+dividerLine;
-            paint.setColor(context.getResources().getColor(R.color.black));
-            canvas.drawLine(startX,startY,stopX,stopY,paint);
-            //2.画圆圈
-            //设置不同颜色
-            if (parent.getChildAdapterPosition(child) %2 ==0){
-                paint.setColor(context.getResources().getColor(R.color.colorPrimary));
-            }else {
-                paint.setColor(context.getResources().getColor(R.color.colorAccent));
+            int startX = leftOffset-30;
+            int startY = child.getTop();
+            int lineStopY = startY+padding;
+            paint.setColor(context.getResources().getColor(R.color.gray_deep));
+            //画图形上半部分竖线
+            canvas.drawLine(startX,startY,startX,lineStopY,paint);
+            //2.画图形
+            int positon = parent.getChildAdapterPosition(child);
+            LogisticsInfoBean bean = dataBeanList.get(positon);
+            Rect dst = new Rect(startX-iconWidth/2,lineStopY,startX+iconWidth/2,lineStopY+iconWidth);
+            switch (bean.getStatus()){
+                case TIPS:
+                    canvas.drawCircle(startX,lineStopY+circleRadius,circleRadius,paint);
+                    break;
+                case ORDERED:
+                    canvas.drawBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_order),null,dst,null);
+                    break;
+                case STOCK_UP:
+                    canvas.drawBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_stockup),null,dst,null);
+                    break;
+                case DELIVERED:
+                    canvas.drawBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_diliver),null,dst,null);
+                    break;
+                case TRANSPORTING:
+                    canvas.drawBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_transporting),null,dst,null);
+                    break;
+                case RECEIVING:
+                    canvas.drawBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_receive),null,dst,null);
+                    break;
+                default:
+                    canvas.drawCircle(startX,lineStopY+circleRadius,circleRadius,paint);
+                    break;
             }
-            canvas.drawCircle(stopX,startY+toTop+circleRadius,circleRadius,paint);
-            //3.画文字
-            paint.setColor(context.getResources().getColor(R.color.black));
-            canvas.drawText("12:01",5,startY+toTop+2*circleRadius,paint);
-           //3.画item之间的分割线
-            paint.setColor(context.getResources().getColor(R.color.gray));
-            canvas.drawLine(leftOffset,child.getBottom()+1,child.getRight(),child.getBottom()+1,paint);
+            //画下半部分竖线
+            if (positon != dataBeanList.size() -1){
+                if (bean.getStatus() == LogisticsStatus.TIPS){
+                    canvas.drawLine(startX,lineStopY+2*circleRadius,startX,child.getBottom(),paint);
+                }else {
+                    canvas.drawLine(startX,lineStopY+iconWidth,startX,child.getBottom(),paint);
+                }
+            }
+            //3.画日期
+            canvas.drawText(bean.getDate(),startX-iconWidth/2-10,lineStopY+iconWidth/2,paint);
+            canvas.drawText(bean.getTime(),startX-iconWidth/2-10,lineStopY+iconWidth/2+20,paint);
+
         }
 
 
@@ -92,6 +128,5 @@ public class TimeAxisDivider extends RecyclerView.ItemDecoration {
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         outRect.left = leftOffset;
-        outRect.bottom = 1;
     }
 }
